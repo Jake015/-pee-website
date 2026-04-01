@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoGames | Learn Environmental Issues Through Play</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Games Page Specific Styles */
+        .games-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%);
+        }
+        
+        .games-header {
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+            color: white;
+            text-align: center;
+            padding: 80px 20px 60px;
+            margin-bottom: 40px;
+        }
+        
+        .games-header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .games-header h1 i {
+            margin-right: 15px;
+        }
+        
+        .games-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+            color: white;
+        }
+        
+        .back-to-blog {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .back-to-blog:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .games-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+        
+        /* Game Tabs Navigation */
+        .game-tabs-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .game-tab-btn {
+            padding: 15px 30px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .game-tab-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .game-tab-btn:hover {
+            border-color: #2e7d32;
+            transform: translateY(-2px);
+        }
+        
+        .game-tab-btn.active {
+            background: linear-gradient(135deg, #2e7d32, #43a047);
+            color: white;
+            border-color: transparent;
+        }
+        
+        /* Game Container */
+        .game-container {
+            display: none;
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        .game-container.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .game-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .game-stats span i {
+            margin-right: 8px;
+            color: #ffd54f;
+        }
+        
+        .game-progress {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #2e7d32, #43a047);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        /* Quiz Styles */
+        .quiz-question {
+            margin-bottom: 30px;
+        }
+        
+        .quiz-question h3 {
+            font-size: 1.4rem;
+            color: #1a2a3a;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            border-color: #43a047;
+            background: #e8f5e9;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option-letter {
+            width: 40px;
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+        
+        .quiz-option.correct .quiz-option-letter {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .quiz-option.wrong {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+        
+        .quiz-option.wrong .quiz-option-letter {
+            background: #f44336;
+            color: white;
+        }
+        
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        /* Word Puzzle Styles */
+        .puzzle-hint {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .scrambled-word {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 5px;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            color: #2e7d32;
+            word-break: break-all;
+        }
+        
+        .puzzle-input {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .puzzle-input input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .puzzle-input input:focus {
+            outline: none;
+            border-color: #2e7d32;
+        }
+        
+        .puzzle-input button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #2e7d32, #43a047);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .puzzle-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46,125,50,0.3);
+        }
+        
+        .puzzle-feedback {
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .puzzle-feedback.correct {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+        
+        .puzzle-feedback.wrong {
+            background: #ffebee;
+            color: #f44336;
+        }
+        
+        /* Match Game Styles */
+        .match-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            min-height: 400px;
+        }
+        
+        .match-card {
+            background: linear-gradient(135deg, #f8f9fa, #fff);
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+        
+        .match-card:hover {
+            transform: translateY(-3px);
+            border-color: #43a047;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .match-card.selected {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+            transform: scale(1.02);
+        }
+        
+        .match-card.matched {
+            background: #c8e6c9;
+            border-color: #4caf50;
+            cursor: default;
+            opacity: 0.7;
+            text-decoration: line-through;
+        }
+        
+        /* True/False Styles */
+        .tf-question {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .tf-question h3 {
+            font-size: 1.5rem;
+            color: #1a2a3a;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .tf-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .tf-btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tf-btn.true {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+        
+        .tf-btn.true:hover {
+            background: #4caf50;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .tf-btn.false {
+            background: #ffebee;
+            color: #f44336;
+            border: 2px solid #f44336;
+        }
+        
+        .tf-btn.false:hover {
+            background: #f44336;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .tf-feedback {
+            margin-top: 30px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .tf-feedback.correct {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+        
+        .tf-feedback.wrong {
+            background: #ffebee;
+            color: #f44336;
+        }
+        
+        /* Game Result */
+        .game-result {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+        
+        .result-icon.success {
+            color: #4caf50;
+        }
+        
+        .result-icon.failed {
+            color: #f44336;
+        }
+        
+        .game-result h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .game-result p {
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
+        
+        .game-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #2e7d32, #43a047);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46,125,50,0.3);
+        }
+        
+        /* Eco Sort Game Styles */
+        .ecosort-instruction {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #1565c0;
+        }
+        
+        .ecosort-bins {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .bin-card {
+            background: linear-gradient(135deg, #f8f9fa, #fff);
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .bin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .bin-card.selected {
+            border-color: #2e7d32;
+            background: #e8f5e9;
+            transform: scale(1.02);
+        }
+        
+        .bin-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .bin-card[data-bin="biodegradable"] .bin-icon i {
+            color: #4caf50;
+        }
+        
+        .bin-card[data-bin="recyclable"] .bin-icon i {
+            color: #2196f3;
+        }
+        
+        .bin-card[data-bin="residual"] .bin-icon i {
+            color: #f44336;
+        }
+        
+        .bin-card h4 {
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .bin-card p {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .ecosort-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .waste-item {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .waste-item:hover {
+            transform: translateY(-3px);
+            border-color: #ffd54f;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .waste-item.selected {
+            border-color: #2e7d32;
+            background: #e8f5e9;
+            transform: scale(1.02);
+        }
+        
+        .waste-item.sorted {
+            opacity: 0.5;
+            background: #c8e6c9;
+            text-decoration: line-through;
+            cursor: default;
+            pointer-events: none;
+        }
+        
+        .waste-item-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .waste-item-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .ecosort-feedback {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .ecosort-feedback.correct {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+        
+        .ecosort-feedback.wrong {
+            background: #ffebee;
+            color: #f44336;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .games-header h1 {
+                font-size: 2rem;
+            }
+            
+            .game-tabs-nav {
+                gap: 10px;
+            }
+            
+            .game-tab-btn {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+            
+            .match-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .quiz-question h3 {
+                font-size: 1.1rem;
+            }
+            
+            .tf-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .tf-btn {
+                width: 200px;
+            }
+            
+            .scrambled-word {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+                padding: 20px;
+            }
+            
+            .ecosort-bins {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .ecosort-items {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-globe-asia"></i>
+                <span>EcoVoices</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#topic1">Global Warming</a></li>
+                <li><a href="index.html#topic2">Climate Change</a></li>
+                <li><a href="index.html#topic3">Waste Management</a></li>
+                <li><a href="index.html#topic4">5Rs</a></li>
+                <li><a href="index.html#topic5">Organizations</a></li>
+                <li><a href="games.html" class="games-nav-link active"><i class="fas fa-gamepad"></i> Games</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Games Page Header -->
+    <div class="games-page">
+        <div class="games-header">
+            <h1><i class="fas fa-gamepad"></i> EcoGames</h1>
+            <p>Learn about environmental issues while having fun! Test your knowledge with these educational games.</p>
+            <a href="index.html" class="back-to-blog"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+        </div>
+
+        <div class="games-wrapper">
+            <!-- Game Tabs Navigation -->
+            <div class="game-tabs-nav">
+                <button class="game-tab-btn active" onclick="switchGame('quiz')">
+                    <i class="fas fa-question-circle"></i> Quiz Challenge
+                </button>
+                <button class="game-tab-btn" onclick="switchGame('wordpuzzle')">
+                    <i class="fas fa-font"></i> Word Puzzle
+                </button>
+                <button class="game-tab-btn" onclick="switchGame('match')">
+                    <i class="fas fa-puzzle-piece"></i> Match the Pairs
+                </button>
+                <button class="game-tab-btn" onclick="switchGame('truefalse')">
+                    <i class="fas fa-check-double"></i> True or False
+                </button>
+                <button class="game-tab-btn" onclick="switchGame('ecosort')">
+                    <i class="fas fa-trash-alt"></i> Eco Sort Challenge
+                </button>
+                <button class="game-tab-btn" onclick="window.open('game.html', '_blank')">
+                    <i class="fas fa-shield-alt"></i> Eco Guardian Defense
+                </button>
+
+            </div>
+
+            <!-- Game 1: Quiz Challenge -->
+            <div id="quiz-game" class="game-container active">
+                <div class="game-header">
+                    <div class="game-stats">
+                        <span><i class="fas fa-star"></i> Score: <span id="quiz-score">0</span></span>
+                        <span><i class="fas fa-question-circle"></i> Question: <span id="quiz-current">1</span>/<span id="quiz-total">10</span></span>
+                    </div>
+                    <div class="game-progress">
+                        <div class="progress-bar" id="quiz-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="game-content" id="quiz-content"></div>
+                <div class="game-result" id="quiz-result" style="display: none;">
+                    <div class="result-icon" id="result-icon"></div>
+                    <h3 id="result-title"></h3>
+                    <p id="result-message"></p>
+                    <button class="game-btn" onclick="resetQuiz()">Play Again</button>
+                </div>
+            </div>
+
+            <!-- Game 2: Word Puzzle -->
+            <div id="wordpuzzle-game" class="game-container">
+                <div class="game-header">
+                    <div class="game-stats">
+                        <span><i class="fas fa-star"></i> Score: <span id="puzzle-score">0</span></span>
+                        <span><i class="fas fa-puzzle-piece"></i> Words Solved: <span id="puzzle-current">1</span>/<span id="puzzle-total">8</span></span>
+                    </div>
+                </div>
+                <div class="game-content" id="puzzle-content">
+                    <div class="puzzle-hint">
+                        <i class="fas fa-lightbulb"></i>
+                        <span id="puzzle-hint-text">Unscramble the letters to form an environmental term!</span>
+                    </div>
+                    <div class="scrambled-word" id="scrambled-word"></div>
+                    <div class="puzzle-input">
+                        <input type="text" id="puzzle-answer" placeholder="Type your answer here..." onkeypress="handlePuzzleKeyPress(event)">
+                        <button onclick="checkPuzzleAnswer()">Submit</button>
+                    </div>
+                    <div class="puzzle-feedback" id="puzzle-feedback"></div>
+                </div>
+                <div class="game-result" id="puzzle-result" style="display: none;">
+                    <div class="result-icon" id="puzzle-result-icon"></div>
+                    <h3 id="puzzle-result-title"></h3>
+                    <p id="puzzle-result-message"></p>
+                    <button class="game-btn" onclick="resetPuzzle()">Play Again</button>
+                </div>
+            </div>
+
+            <!-- Game 3: Match the Pairs -->
+            <div id="match-game" class="game-container">
+                <div class="game-header">
+                    <div class="game-stats">
+                        <span><i class="fas fa-star"></i> Score: <span id="match-score">0</span></span>
+                        <span><i class="fas fa-layer-group"></i> Matches: <span id="match-count">0</span>/<span id="match-total">6</span></span>
+                    </div>
+                </div>
+                <div class="game-content">
+                    <div class="match-grid" id="match-grid"></div>
+                </div>
+                <div class="game-result" id="match-result" style="display: none;">
+                    <div class="result-icon" id="match-result-icon"></div>
+                    <h3 id="match-result-title"></h3>
+                    <p id="match-result-message"></p>
+                    <button class="game-btn" onclick="resetMatchGame()">Play Again</button>
+                </div>
+            </div>
+
+            <!-- Game 4: True or False -->
+            <div id="truefalse-game" class="game-container">
+                <div class="game-header">
+                    <div class="game-stats">
+                        <span><i class="fas fa-star"></i> Score: <span id="tf-score">0</span></span>
+                        <span><i class="fas fa-question-circle"></i> Question: <span id="tf-current">1</span>/<span id="tf-total">10</span></span>
+                    </div>
+                    <div class="game-progress">
+                        <div class="progress-bar" id="tf-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="game-content" id="tf-content"></div>
+                <div class="game-result" id="tf-result" style="display: none;">
+                    <div class="result-icon" id="tf-result-icon"></div>
+                    <h3 id="tf-result-title"></h3>
+                    <p id="tf-result-message"></p>
+                    <button class="game-btn" onclick="resetTrueFalse()">Play Again</button>
+                </div>
+            </div>
+
+            <!-- Game 5: Eco Sort Challenge -->
+<div id="ecosort-game" class="game-container">
+                <div class="game-header">
+                    <div class="game-stats">
+                        <span><i class="fas fa-star"></i> Score: <span id="ecosort-score">0</span></span>
+                        <span><i class="fas fa-trash-alt"></i> Items Sorted: <span id="ecosort-count">0</span>/<span id="ecosort-total">12</span></span>
+                    </div>
+                </div>
+
+                <!-- Game 6: Eco Guardian Defense (game.html) -->
+                <div id="defense-game" class="game-container">
+                    <div class="game-header">
+                        <div class="game-stats">
+                            <span><i class="fas fa-heart"></i> Environment Health: <span id="defense-health">100</span>%</span>
+                            <span><i class="fas fa-tree"></i> Trees Planted: <span id="defense-trees">0</span></span>
+                            <span><i class="fas fa-trash-alt"></i> Trash Cleaned: <span id="defense-trash">0</span></span>
+                            <span><i class="fas fa-star"></i> Score: <span id="defense-score">0</span></span>
+                        </div>
+                        <div class="game-progress">
+                            <div class="progress-bar" id="defense-progress" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <iframe src="game.html" style="width:100%; height:60vh; min-height:500px; max-height:70vh; border:none; border-radius:20px;" frameborder="0"></iframe>
+                    </div>
+                </div>
+                    <div class="game-progress">
+                        <div class="progress-bar" id="ecosort-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="game-content" id="ecosort-game-content">
+                    <div class="ecosort-instruction">
+                        <i class="fas fa-info-circle"></i>
+                        <span>How to play: Click on a waste item to select it, then click on the correct bin to sort it. No hints! Test your knowledge of proper waste segregation!</span>
+                    </div>
+                    <div class="ecosort-bins">
+                        <div class="bin-card" data-bin="biodegradable" onclick="sortToBin('biodegradable')">
+                            <div class="bin-icon"><i class="fas fa-apple-alt"></i></div>
+                            <h4>🌱 Biodegradable</h4>
+                            <p>Food scraps • Paper • Leaves • Wood</p>
+                        </div>
+                        <div class="bin-card" data-bin="recyclable" onclick="sortToBin('recyclable')">
+                            <div class="bin-icon"><i class="fas fa-recycle"></i></div>
+                            <h4>♻️ Recyclable</h4>
+                            <p>Plastic bottles • Glass • Metal • Cardboard</p>
+                        </div>
+                        <div class="bin-card" data-bin="residual" onclick="sortToBin('residual')">
+                            <div class="bin-icon"><i class="fas fa-trash"></i></div>
+                            <h4>🗑️ Residual</h4>
+                            <p>Sanitary waste • Mixed plastics • Diapers</p>
+                        </div>
+                    </div>
+                    <div class="ecosort-items" id="ecosort-items"></div>
+                    <div class="ecosort-feedback" id="ecosort-feedback"></div>
+                </div>
+                <div class="game-result" id="ecosort-result" style="display: none;">
+                    <div class="result-icon" id="ecosort-result-icon"></div>
+                    <h3 id="ecosort-result-title"></h3>
+                    <p id="ecosort-result-message"></p>
+                    <button class="game-btn" onclick="resetEcoSort()">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-globe-asia"></i> EcoVoices</h3>
+                    <p>Raising awareness about environmental issues in the Philippines and around the world. Together, we can create a sustainable future.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Topics Covered</h4>
+                    <ul>
+                        <li><a href="index.html#topic1">Causes of Global Warming</a></li>
+                        <li><a href="index.html#topic2">Climate Change Impacts</a></li>
+                        <li><a href="index.html#topic3">Philippine Waste Management</a></li>
+                        <li><a href="index.html#topic4">The 5Rs</a></li>
+                        <li><a href="index.html#topic5">Environmental Organizations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 EcoVoices | Created by Information Technology Students</p>
+                <p>For educational purposes only</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="games-script.js"></script>
+</body>
+</html>
