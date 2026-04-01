@@ -3,7 +3,7 @@ const menuToggle = document.querySelector('.menu-toggle');
 const navMenu = document.querySelector('.nav-menu');
 
 // Gemini API Configuration
-const GEMINI_API_KEY = 'AIzaSyA46urlcWI5HzFnUqK62GPitgMckeDJ0ZQ'; // Replace with your actual API key from Google AI Studio
+const GEMINI_API_KEY = 'AIzaSyBVA9k2lYJfdKIBESjiz25yYDzUDei_9wo'; // Replace with your actual API key from Google AI Studio
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY;
 
 // Function to call Gemini API
